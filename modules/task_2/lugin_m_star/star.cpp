@@ -41,9 +41,7 @@ MPI_Comm createStarComm(const MPI_Comm oldComm) {
 bool isStarTopology(const MPI_Comm curComm) {
     // Is MPI_GRAPH???
     int status;
-    if (MPI_Topo_test(curComm, &status)) {
-        return false;
-    }
+    MPI_Topo_test(curComm, &status);
     if (status != MPI_GRAPH) {
         return false;
     }
@@ -51,9 +49,8 @@ bool isStarTopology(const MPI_Comm curComm) {
     // Check edgesSize info
     int nnodes;
     int nedges;
-    if (MPI_Graphdims_get(curComm, &nnodes, &nedges)) {
-        return false;
-    }
+    MPI_Graphdims_get(curComm, &nnodes, &nedges);
+
     int edgesSize = 2 * (nnodes - 1);
     if (nedges != edgesSize) {
         return false;
@@ -62,9 +59,7 @@ bool isStarTopology(const MPI_Comm curComm) {
     // Check graph info
     int *index = new int[nnodes];
     int *edges = new int[edgesSize];
-    if (MPI_Graph_get(curComm, nnodes, edgesSize, index, edges)) {
-        return false;
-    }
+    MPI_Graph_get(curComm, nnodes, edgesSize, index, edges);
     for (int i = 0; i < nnodes; i++) {
         if (index[i] != i + nnodes - 1) {
             return false;

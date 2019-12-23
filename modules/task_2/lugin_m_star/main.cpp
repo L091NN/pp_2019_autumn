@@ -13,7 +13,7 @@ TEST(star_test, no_throw_test) {
     ASSERT_NO_THROW(isStarTopology(MPI_COMM_WORLD));
 }
 
-TEST(star_test, check_when_not_graph_topology) {
+TEST(star_test, check_random_topology) {
     int rank, nnodes;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &nnodes);
@@ -21,8 +21,9 @@ TEST(star_test, check_when_not_graph_topology) {
     int* index = new int[nnodes];
     int* edges = new int[nnodes];
     for (int i = 0; i < nnodes; i++) {
-        index[i] = 0;
-        edges[i] = 0;
+        index[i] = 2 + i * 2;
+        edges[i * 2] = (nnodes - 1 + i) % nnodes;
+        edges[(i * 2) + 1] = (nnodes + 1 + i) % nnodes;
     }
     MPI_Comm comm;
     MPI_Graph_create(MPI_COMM_WORLD, nnodes, index, edges, 0, &comm);
