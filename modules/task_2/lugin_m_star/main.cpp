@@ -26,7 +26,7 @@ TEST(star_test, check_when_not_graph_topology) {
     }
     MPI_Comm comm;
     MPI_Graph_create(MPI_COMM_WORLD, nnodes, index, edges, 0, &comm);
-    if (rank == 0) {
+    if (rank == 0 && nnodes != 1) {
         EXPECT_FALSE(isStarTopology(comm));
     }
 }
