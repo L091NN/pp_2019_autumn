@@ -19,7 +19,7 @@ TEST(star_test, check_random_topology) {
     MPI_Comm_size(MPI_COMM_WORLD, &nnodes);
 
     int* index = new int[nnodes];
-    int* edges = new int[nnodes];
+    int* edges = new int[2 * nnodes];
     for (int i = 0; i < nnodes; i++) {
         index[i] = 2 + i * 2;
         edges[i * 2] = (nnodes - 1 + i) % nnodes;
